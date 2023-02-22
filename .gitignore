@@ -1,3 +1,6 @@
 __pycache__
 
 /experiments/*/
+
+/data/*
+!/data/README.md
