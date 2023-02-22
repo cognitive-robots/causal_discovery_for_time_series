@@ -1,3 +1,6 @@
 [submodule "baselines/scripts_matlab/matlab_packages/cd_nod"]
 	path = baselines/scripts_matlab/matlab_packages/cd_nod
 	url = https://github.com/Biwei-Huang/Causal-Discovery-from-Nonstationary-Heterogeneous-Data.git
+[submodule "baselines/scripts_python/python_packages/NAVAR"]
+	path = baselines/scripts_python/python_packages/NAVAR
+	url = https://github.com/cognitive-robots/NAVAR
