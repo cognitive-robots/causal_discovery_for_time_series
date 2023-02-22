@@ -27,7 +27,7 @@ from joblib import Parallel, delayed
 import causal_discovery_class as cd
 import networkx as nx
 
-from tools.graph_functions import print_graph
+from graph_functions import print_graph
 
 def run_on_data(i, method, dataset, variable, files_input_name, verbose, max_time_lag, sig_level):
     save_model = True

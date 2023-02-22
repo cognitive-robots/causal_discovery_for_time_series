@@ -40,7 +40,7 @@ try:
 except:
     print("Could not import Matlab packages for MVGranger and CDNOD")
 
-from tools.graph_functions import tgraph_to_graph, tgraph_to_list, print_graph, print_temporal_graph, draw_graph, \
+from graph_functions import tgraph_to_graph, tgraph_to_list, print_graph, print_temporal_graph, draw_graph, \
     draw_temporal_graph, string_nodes
 
 

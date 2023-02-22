@@ -7,7 +7,7 @@ DATASETS="lyft highd synthetic"
 VARIABLES="acceleration velocity"
 PROCESSOR_COUNT=1
 MAX_TIME_LAG=25
-SIG_LEVEL=0.001
+SIG_LEVEL=0.2
 
 if [ "${SKIP_TO_METHOD}" != "" ]; then
   NEW_METHODS=""
