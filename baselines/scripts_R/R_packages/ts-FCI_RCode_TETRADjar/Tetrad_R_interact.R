@@ -1,7 +1,7 @@
 # This file contains functions to write data and knowledge to files, such that
 # the TETRAD code can read it, as well as a function to read in the TETRAD-
 # output
-# 
+#
 # Copyright (C) 2010 Doris Entner
 #
 # This program is free software; you can redistribute it and/or
@@ -13,7 +13,7 @@
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, see http://www.gnu.org/licenses/
 
@@ -219,7 +219,7 @@ writeKnowledgeToFile <- function(nobs,nrep,knowledgeFileName=
       write(str,file=path,append=TRUE,sep="")
     }
   }
-  
+
 } # end function
 
 
@@ -296,7 +296,7 @@ callTetradUniversal <- function(type, pathName="./",
     progcall <- paste("java -jar ", paste(pathName,tetradJarName,sep=""),
       " -data ", paste(pathName,dataFileName,sep=""), " -datatype ", dataType,
       " -significance ", sig, " -algorithm ", algName, " -knowledge ",
-      paste(pathName,knowledgeFileName,sep=""), " -outfile ", 
+      paste(pathName,knowledgeFileName,sep=""), " -outfile ",
       paste(pathName,outFileName,sep=""),  sep="")
   }
 
@@ -319,7 +319,7 @@ callTetradUniversal <- function(type, pathName="./",
     }
   }
 
-  system(progcall)
+  system(progcall, timeout=10)
 
 }
 
@@ -346,7 +346,7 @@ readFCIoutput <- function(pathName="./", readFileName="resultFCI.txt") {
 
     node1 <- as.integer(substr(temp[[1]][1],2,nchar(temp[[1]][1])))
     node2 <- as.integer(substr(temp[[1]][3],2,nchar(temp[[1]][3])))
-    
+
     mark1 <- substr(temp[[1]][2],1,1)
     mark2 <- substr(temp[[1]][2],3,3)
 
@@ -361,5 +361,5 @@ readFCIoutput <- function(pathName="./", readFileName="resultFCI.txt") {
   }
 
   pag
-  
+
 } # end function

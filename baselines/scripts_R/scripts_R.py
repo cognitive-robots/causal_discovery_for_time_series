@@ -48,7 +48,11 @@ def run_R(script, arg_list):
 
     p = Popen(cmd, cwd="./", stdin=PIPE, stdout=PIPE, stderr=PIPE)
     # Return R output or error
-    output, error = p.communicate()
+    #try:
+    output, error = p.communicate(timeout=300)
+    #except TimeoutExpired:
+    #    p.kill()
+    #    output, error = p.communicate()
     print(output)
     if p.returncode == 0:
         print('R Done')
@@ -60,8 +64,7 @@ def run_R(script, arg_list):
         else:
             return g_df, g_df
     else:
-        print('R Error:\n {0}'.format(error))
-        exit(0)
+        raise Exception(error)
 
 
 def ts_fci_dataframe_to_dict(df, names, nlags):

@@ -16,7 +16,7 @@ def clear_results(dir_path):
 
 
 def run_matlab(script, arg_list):
-    if script not in ["granger_mv", "globalmit", "fblg"]:
+    if script not in ["granger_mv", "globalmit", "fblg", "cd_nod"]:
         print("Error: method not available")
         exit(0)
     # Remove all arguments from directory
@@ -48,7 +48,12 @@ def run_matlab(script, arg_list):
 
     r_arg_list.append(dir_path)
     # matlab - nodesktop - nosplash - r 'try granger_mv("data", "sig_level", "nlags") ; catch; end; quit'
-    cmd = ['matlab', '-nodesktop', '-nosplash', '-r',  'try '+script_name+'("'+str(r_arg_list[0])+'","'+str(r_arg_list[1])+'","' +str(r_arg_list[2])+'","' +str(r_arg_list[3])+'"); catch; end; quit']
+    if script == (dir_path + "/granger_mv"):
+        cmd = ['matlab', '-nodesktop', '-nosplash', '-r',  'try '+script_name+'("'+str(r_arg_list[0])+'","'+str(r_arg_list[1])+'","' +str(r_arg_list[2])+'","' +str(r_arg_list[3])+'"); catch; end; quit']
+    elif script == (dir_path + "/cd_nod"):
+        cmd = ['matlab', '-nodesktop', '-nosplash', '-r',  'try '+script_name+'("'+str(r_arg_list[0])+'","'+str(r_arg_list[1])+'","' +str(r_arg_list[2])+'"); catch; end; quit']
+    else:
+        raise ValueError("Unsure how to format command string")
     print(cmd)
 
     working_path = os.getcwd()

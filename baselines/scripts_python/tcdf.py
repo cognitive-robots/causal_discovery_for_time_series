@@ -43,9 +43,10 @@ def tcdf(arg_list):
             r_arg_list.append("--"+a[1])
             r_arg_list.append(str(a[0]))
 
+    results_path = os.path.join(dir_path, f"results/tcdf_results.txt")
     r_arg_list.append("--path")
-    r_arg_list.append(dir_path)
-    cmd = ["python", script] + r_arg_list
+    r_arg_list.append(results_path)
+    cmd = ["python3", script] + r_arg_list
 
     p = Popen(cmd, cwd="./", stdin=PIPE, stdout=PIPE, stderr=PIPE)
     # Return R output or error
@@ -53,7 +54,7 @@ def tcdf(arg_list):
     print(output)
     if p.returncode == 0:
         print('Python Done')
-        g_dict = json.load(open(dir_path + "/results/tcdf_result.txt"))
+        g_dict = json.load(open(results_path))
         for key in g_dict.keys():
             key_list = []
             for elem in g_dict[key]:

@@ -35,7 +35,7 @@ momax     = nlags;     % maximum model order for model order estimation
 
 acmaxlags = 1000;   % maximum autocovariance lags (empty for automatic calculation)
 
-tstat     = '';     % statistical test for MVGC:  'F' for Granger's F-test (default) or 'chi2' for Geweke's chi2 test
+tstat     = 'chi2';     % statistical test for MVGC:  'F' for Granger's F-test (default) or 'chi2' for Geweke's chi2 test
 alpha     = sig_level;   % significance level for significance test
 mhtc      = 'FDR';  % multiple hypothesis test correction (see routine 'significance')
 
@@ -147,8 +147,26 @@ assert(~isbad(F,false),'GC calculation failed');
 % Significance test using theoretical null distribution, adjusting for multiple
 % hypotheses.
 
+fprintf("alpha: %f ", alpha);
+ptic('*** sig_test... ');
+%try
 pval = mvgc_pval(F,morder,nobs,ntrials,1,1,nvars-2,tstat); % take careful note of arguments!
+%catch E
+%  fprintf("An exception was encountered: ");
+%  fprintf(getReport(E.last));
+%end
+%for i = 1:size(pval,1)
+%  for j = 1:size(pval,2)
+%    fprintf("%f ", pval(i, j));
+%  end
+%end
 sig  = significance(pval,alpha,mhtc);
+%for i = 1:size(sig,1)
+%  for j = 1:size(sig,2)
+%    fprintf("%d ", sig(i, j));
+%  end
+%end
+ptoc;
 
 % Plot time-domain causal graph, p-values and significance.
 
@@ -165,6 +183,7 @@ if plot_bool
     title(['Significant at p = ' num2str(alpha)])
 end
 
+ptic('*** generating_output... ');
 sig = transpose(sig);
 [row,col] = find(sig==1);
 for i = 1:length(row)
@@ -175,4 +194,6 @@ sig(isnan(sig))=1;
 sig = array2table(sig,'VariableNames',names);
 fprintf(dir_path+'/results/result.txt');
 writetable(sig, './results/result.txt');
+ptoc;
+
 end
