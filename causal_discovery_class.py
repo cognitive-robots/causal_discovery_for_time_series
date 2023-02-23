@@ -15,26 +15,19 @@
 
 import random
 import networkx as nx
+
 from baselines.scripts_python.pcmci import pcmci
 from baselines.scripts_python.varlingam import varlingam
 from baselines.scripts_python.tcdf import tcdf
 from baselines.scripts_python.python_packages.NAVAR.train_NAVAR import train_NAVAR
 from baselines.scripts_python.granger_pw import granger_pw
-from baselines.scripts_python.granger_mv2 import granger_mv2
-from baselines.scripts_python.pctmi import pctmi, tpctmi
-from baselines.scripts_python.fcitmi import fcitmi
-#from baselines.scripts_python.tskiko import tskiko
-#from baselines.scripts_python.ocse import ocse
-
-from baselines.scripts_python.nbcb import nbcb
-from baselines.scripts_python.pwnbcbk import pwnbcbk
-
 from baselines.scripts_python.dynotears import dynotears
 
 try:
     from baselines.scripts_R.scripts_R import run_R
 except:
     print("Could not import R packages for TiMINO and tsFCI")
+    
 try:
     from baselines.scripts_matlab.scripts_matlab import run_matlab
 except:
@@ -329,17 +322,6 @@ class GrangerMV(GraphicalModel):
         g_df = run_matlab("granger_mv", [[data, "data"], [self.sig_level, "sig_level"], [self.nlags, "nlags"]])
         self._dataframe_to_graph(g_df)
 
-class GrangerMV2(GraphicalModel):
-    def __init__(self, nodes, sig_level=0.05, nlags=5):
-        GraphicalModel.__init__(self, nodes)
-        self.sig_level = sig_level
-        self.nlags = nlags
-
-    def infer_from_data(self, data):
-        data.columns = list(self.ghat.nodes)
-        g_df = granger_mv2(data, sig_level=self.sig_level, maxlag=self.nlags, verbose=False)
-        self._dataframe_to_graph(g_df)
-
 
 class TCDF(TemporalGraphicalModel):
     def __init__(self, nodes, epochs=5000,  kernel_size=4, dilation_coefficient=4, hidden_layers=1, learning_rate=0.01,
@@ -370,6 +352,7 @@ class TCDF(TemporalGraphicalModel):
                        [self.learning_rate, "learning_rate"], [self.sig_level, "significance"]])
         self._dict_to_tgraph(g_dict)
         self._tgraph_to_graph()
+
 
 class NAVAR(TemporalGraphicalModel):
     def __init__(self, nodes, sig_level=0.05, nlags=5, hidden_nodes=10, hidden_layers=1, epochs=2000, batch_size=32, sparsity_penalty=0.1,
@@ -409,6 +392,7 @@ class NAVAR(TemporalGraphicalModel):
         self._dict_to_tgraph(g_dict)
         self._tgraph_to_graph()
 
+
 class PCMCI(TemporalGraphicalModel):
     def __init__(self, nodes, sig_level=0.05, nlags=5, cond_ind_test="CMIknn"):
         TemporalGraphicalModel.__init__(self, nodes)
@@ -423,17 +407,6 @@ class PCMCI(TemporalGraphicalModel):
         self._tgraph_to_graph()
 
 
-#class OCSE(GraphicalModel):
-#    def __init__(self, nodes, sig_level=0.05):
-#        GraphicalModel.__init__(self, nodes)
-#        self.sig_level = sig_level
-#
-#    def infer_from_data(self, data):
-#        data.columns = list(self.ghat.nodes)
-#        g_df = ocse(data, sig_level=self.sig_level)
-#        self._dataframe_to_graph(g_df)
-
-
 class TsFCI(TemporalGraphicalModel):
     def __init__(self, nodes, sig_level=0.05, nlags=5):
         TemporalGraphicalModel.__init__(self, nodes)
@@ -445,74 +418,6 @@ class TsFCI(TemporalGraphicalModel):
         g_dict, init_obj = run_R("tsfci", [[data, "data"], [self.sig_level, "sig_level"], [self.nlags, "nlags"]])
         self._dict_to_tgraph(g_dict)
         self._tgraph_to_graph()
-
-
-class VarFCI(TemporalGraphicalModel):
-    def __init__(self, nodes):
-        TemporalGraphicalModel.__init__(self, nodes)
-
-    def infer_from_data(self, data):
-        1
-
-
-class PCTMI(GraphicalModel):
-    def __init__(self, nodes, sig_level=0.05, nlags=5):
-        GraphicalModel.__init__(self, nodes)
-        self.sig_level = sig_level
-        self.nlags = nlags
-
-    def infer_from_data(self, data):
-        data.columns = list(self.ghat.nodes)
-        g_df = pctmi(data, sig_level=self.sig_level, nlags=self.nlags, verbose=True)
-        self._dataframe_to_graph(g_df)
-
-class TPCTMI(TemporalGraphicalModel):
-    def __init__(self, nodes, sig_level=0.05, nlags=5):
-        TemporalGraphicalModel.__init__(self, nodes)
-        self.sig_level = sig_level
-        self.nlags = nlags
-
-    def infer_from_data(self, data):
-        data.columns = list(self.ghat.nodes)
-        tg_dict = tpctmi(data, sig_level=self.sig_level, nlags=self.nlags, verbose=True)
-        self._dict_to_tgraph(tg_dict)
-        self._tgraph_to_graph()
-
-class NBCB(GraphicalModel):
-    def __init__(self, nodes, sig_level=0.05, nlags=5, pairwise=True):
-        GraphicalModel.__init__(self, nodes)
-        self.sig_level = sig_level
-        self.nlags = nlags
-        self.pairwise = pairwise
-
-    def infer_from_data(self, data):
-        data.columns = list(self.ghat.nodes)
-        g_df = nbcb(data, sig_level=self.sig_level, nlags=self.nlags, verbose=True, pairwise=self.pairwise)
-        self._dataframe_to_graph(g_df)
-
-class PWNBCBk(GraphicalModel):
-    def __init__(self, nodes, sig_level=0.05, nlags=5, pairwise=True):
-        GraphicalModel.__init__(self, nodes)
-        self.sig_level = sig_level
-        self.nlags = nlags
-        self.pairwise = pairwise
-
-    def infer_from_data(self, data):
-        data.columns = list(self.ghat.nodes)
-        g_df = pwnbcbk(data, sig_level=self.sig_level, nlags=self.nlags, verbose=True, pairwise=self.pairwise)
-        self._dataframe_to_graph(g_df)
-
-
-class FCITMI(GraphicalModel):
-    def __init__(self, nodes, sig_level=0.05, nlags=5):
-        GraphicalModel.__init__(self, nodes)
-        self.sig_level = sig_level
-        self.nlags = nlags
-
-    def infer_from_data(self, data):
-        data.columns = list(self.ghat.nodes)
-        g_df = fcitmi(data, sig_level=self.sig_level, nlags=self.nlags, verbose=True)
-        self._dataframe_to_graph(g_df)
 
 
 class VarLiNGAM(TemporalGraphicalModel):
@@ -531,7 +436,6 @@ class VarLiNGAM(TemporalGraphicalModel):
         self._tgraph_to_graph()
 
 
-
 class TiMINO(GraphicalModel):
     def __init__(self, nodes, sig_level=0.05, nlags=5):
         GraphicalModel.__init__(self, nodes)
@@ -543,17 +447,6 @@ class TiMINO(GraphicalModel):
         g_df, _ = run_R("timino", [[data, "data"], [self.sig_level, "sig_level"], [self.nlags, "nlags"]])
         self._dataframe_to_graph(g_df)
 
-
-#class TsKIKO(GraphicalModel):
-#    def __init__(self, nodes, sig_level=0.05, nlags=5):
-#        GraphicalModel.__init__(self, nodes)
-#        self.sig_level = sig_level
-#        self.nlags = nlags
-#
-#    def infer_from_data(self, data):
-#        data.columns = list(self.ghat.nodes)
-#        g_df = tskiko(data, tau_max=self.nlags, sig_level=self.sig_level)
-#        self._dataframe_to_graph(g_df)
 
 class Dynotears(TemporalGraphicalModel):
     def __init__(self, nodes, sig_level=0.05, nlags=5):
@@ -567,6 +460,7 @@ class Dynotears(TemporalGraphicalModel):
         self._dict_to_tgraph(tg_dict)
         self._tgraph_to_graph()
 
+
 class CDNOD(GraphicalModel):
     def __init__(self, nodes, sig_level=0.05):
         GraphicalModel.__init__(self, nodes)
@@ -576,6 +470,7 @@ class CDNOD(GraphicalModel):
         data.columns = list(self.ghat.nodes)
         g_df = run_matlab("cd_nod", [[data, "data"], [self.sig_level, "sig_level"]])
         self._dataframe_to_graph(g_df)
+
 
 class RandomCausalDiscovery(GraphicalModel):
     def __init__(self, nodes, edge_likelihood=0.5):
@@ -590,61 +485,3 @@ class RandomCausalDiscovery(GraphicalModel):
                         self.sghat.add_edges_from([(node_x, node_y)])
                     else:
                         self.oghat.add_edges_from([(node_x, node_y)])
-
-# class GIMME(GraphicalModel):
-#     def __init__(self):
-#         1
-#
-#
-# class FASK(GraphicalModel):
-#     def __init__(self):
-#         1
-#
-#
-# class TwoStep(GraphicalModel):
-#     def __init__(self):
-#         1
-#
-#
-# class AITIA(TemporalGraphicalModel):
-#     def __init__(self):
-#         1
-
-
-if __name__ == "__main__":
-    import pandas as pd
-    structure = "fork"
-    path = "./data/simulated_ts_data/"+str(structure)+"/data_"+str(0)+".csv"
-    dataset = pd.read_csv(path, delimiter=',', index_col=0)
-    # model = TiMINO(data.columns)
-    # model = TsFCI(data.columns)
-    # model = VarLiNGAM(data.columns)
-    model = PCMCI(dataset.columns, cond_ind_test="ParCorr")
-    # model = TCDF(dataset.columns)
-    # model = GrangerMV(dataset.columns)
-    # model = GrangerPW(dataset.columns)
-    model.infer_from_data(dataset)
-    g = model.ghat
-
-    # model.draw(node_size=1000)
-    # model.print_graph()
-
-    # Gtrue = nx.DiGraph()
-    # Gtrue.add_nodes_from(dataset.columns)
-    # Gtrue.add_edges_from([("V1", "V2"), ("V1", "V3")])
-    # print(model._f1(Gtrue, method="oriented"))
-    #
-    # model.temporal_draw(node_size=1000)
-
-    model.tghat.edges["V1", "V3"]['time'] = [1]
-    model.print_temporal_graph()
-    TGtrue = nx.DiGraph()
-    TGtrue.add_nodes_from(dataset.columns)
-    TGtrue.add_edges_from([("V1", "V1"), ("V1", "V2"), ("V1", "V3"), ("V2", "V2"), ("V3", "V3")])
-    TGtrue.edges["V1", "V1"]['time'] = [1]
-    TGtrue.edges["V2", "V2"]['time'] = [1]
-    TGtrue.edges["V3", "V3"]['time'] = [1]
-    TGtrue.edges["V1", "V2"]['time'] = [1]
-    TGtrue.edges["V1", "V3"]['time'] = [2]
-
-    print(model._temporal_f1(TGtrue))

@@ -7,3 +7,6 @@
 [submodule "baselines/scripts_python/python_packages/tigramite"]
 	path = baselines/scripts_python/python_packages/tigramite
 	url = https://github.com/jakobrunge/tigramite.git
+[submodule "baselines/scripts_python/python_packages/lingam"]
+	path = baselines/scripts_python/python_packages/lingam
+	url = https://github.com/cdt15/lingam.git

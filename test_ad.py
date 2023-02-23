@@ -67,23 +67,8 @@ def run_on_data(i, method, dataset, variable, files_input_name, verbose, max_tim
         elif method == "PCMCIParCorr":
             model = cd.PCMCI(nodes, sig_level=sig_level, nlags=max_time_lag, cond_ind_test="ParCorr")
             model.infer_from_data(data)
-        #elif method == "oCSE":
-        #    model = cd.OCSE(nodes, sig_level=sig_level)
-        #    model.infer_from_data(data)
-        elif method == "PCTMI":
-            model = cd.PCTMI(nodes, sig_level=sig_level, nlags=max_time_lag)
-            model.infer_from_data(data)
-        elif method == "NBCB_pw":
-            model = cd.NBCB(nodes, sig_level=sig_level, nlags=max_time_lag)
-            model.infer_from_data(data)
-        elif method == "NBCB":
-            model = cd.NBCB(nodes, sig_level=sig_level, nlags=max_time_lag, pairwise=False)
-            model.infer_from_data(data)
         elif method == "tsFCI":
             model = cd.TsFCI(nodes, sig_level=sig_level, nlags=max_time_lag)
-            model.infer_from_data(data)
-        elif method == "FCITMI":
-            model = cd.FCITMI(nodes, sig_level=sig_level, nlags=max_time_lag)
             model.infer_from_data(data)
         elif method == "VarLiNGAM":
             model = cd.VarLiNGAM(nodes, sig_level=sig_level, nlags=max_time_lag)
@@ -91,9 +76,6 @@ def run_on_data(i, method, dataset, variable, files_input_name, verbose, max_tim
         elif method == "TiMINO":
             model = cd.TiMINO(nodes, sig_level=sig_level, nlags=max_time_lag)
             model.infer_from_data(data)
-        #elif method == "tsKIKO":
-        #    model = cd.TsKIKO(nodes, sig_level=sig_level, nlags=max_time_lag)
-        #    model.infer_from_data(data)
         elif method == "Dynotears":
             model = cd.Dynotears(nodes, sig_level=sig_level, nlags=max_time_lag)
             model.infer_from_data(data)
