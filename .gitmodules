@@ -4,3 +4,6 @@
 [submodule "baselines/scripts_python/python_packages/NAVAR"]
 	path = baselines/scripts_python/python_packages/NAVAR
 	url = https://github.com/cognitive-robots/NAVAR
+[submodule "baselines/scripts_python/python_packages/tigramite"]
+	path = baselines/scripts_python/python_packages/tigramite
+	url = https://github.com/jakobrunge/tigramite.git
