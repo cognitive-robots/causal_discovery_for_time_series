@@ -1,4 +1,4 @@
-from baselines.scripts_python.python_packages.lingam.lingam.var_lingam import VARLiNGAM
+from lingam.var_lingam import VARLiNGAM
 
 import numpy as np
 import pandas as pd
