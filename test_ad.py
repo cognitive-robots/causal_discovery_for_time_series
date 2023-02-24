@@ -73,11 +73,11 @@ def run_on_data(i, method, dataset, variable, files_input_name, verbose, max_tim
         elif method == "VarLiNGAM":
             model = cd.VarLiNGAM(nodes, sig_level=sig_level, nlags=max_time_lag)
             model.infer_from_data(data)
-        elif method == "TiMINO":
-            model = cd.TiMINO(nodes, sig_level=sig_level, nlags=max_time_lag)
+        elif method == "TiMINo":
+            model = cd.TiMINo(nodes, sig_level=sig_level, nlags=max_time_lag)
             model.infer_from_data(data)
         elif method == "Dynotears":
-            model = cd.Dynotears(nodes, sig_level=sig_level, nlags=max_time_lag)
+            model = cd.DYNOTEARS(nodes, sig_level=sig_level, nlags=max_time_lag)
             model.infer_from_data(data)
         elif method == "NAVARMLP":
             model = cd.NAVAR(nodes, sig_level=sig_level, nlags=max_time_lag, lstm=False)

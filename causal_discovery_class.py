@@ -26,8 +26,8 @@ from baselines.scripts_python.dynotears import dynotears
 try:
     from baselines.scripts_R.scripts_R import run_R
 except:
-    print("Could not import R packages for TiMINO and tsFCI")
-    
+    print("Could not import R packages for TiMINo and tsFCI")
+
 try:
     from baselines.scripts_matlab.scripts_matlab import run_matlab
 except:
@@ -436,7 +436,7 @@ class VarLiNGAM(TemporalGraphicalModel):
         self._tgraph_to_graph()
 
 
-class TiMINO(GraphicalModel):
+class TiMINo(GraphicalModel):
     def __init__(self, nodes, sig_level=0.05, nlags=5):
         GraphicalModel.__init__(self, nodes)
         self.sig_level = sig_level
@@ -448,7 +448,7 @@ class TiMINO(GraphicalModel):
         self._dataframe_to_graph(g_df)
 
 
-class Dynotears(TemporalGraphicalModel):
+class DYNOTEARS(TemporalGraphicalModel):
     def __init__(self, nodes, sig_level=0.05, nlags=5):
         TemporalGraphicalModel.__init__(self, nodes)
         self.sig_level = sig_level

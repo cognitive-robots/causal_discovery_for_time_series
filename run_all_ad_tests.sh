@@ -2,7 +2,7 @@
 
 #METHODS="GrangerPW GrangerMV TCDF PCMCIParCorr PCMCICMIknn tsFCI VarLiNGAM TiMINO Dynotears" GrangerVM relies upon matlab for some reason
 #METHODS="GrangerPW TCDF PCMCIParCorr PCMCICMIknn tsFCI VarLiNGAM TiMINO Dynotears" Apparently some of these methods were implemented without a care for multithread processing
-METHODS="GrangerPW GrangerMV TCDF PCMCIParCorr tsFCI VarLiNGAM TiMINO Dynotears NAVARMLP CDNOD Random"
+METHODS="GrangerPW GrangerMV TCDF PCMCIParCorr tsFCI VarLiNGAM TiMINo Dynotears NAVARMLP CDNOD Random"
 DATASETS="lyft highd synthetic"
 VARIABLES="acceleration velocity"
 PROCESSOR_COUNT=1
