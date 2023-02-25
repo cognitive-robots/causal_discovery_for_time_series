@@ -32,7 +32,7 @@ from graph_functions import print_graph
 def run_on_data(i, method, dataset, variable, files_input_name, verbose, max_time_lag, sig_level):
     save_model = True
     file_input_name = files_input_name[i]
-    data = pd.read_csv(f"./data/{dataset}/{variable}/{file_input_name}", delimiter=',', index_col=0, header=0)
+    data = pd.read_csv(f"./input_data/{dataset}/{variable}/{file_input_name}", delimiter=',', index_col=0, header=0)
 
     variable_initial = variable[0]
     nodes = ["c0." + variable_initial, "c1." + variable_initial, "i0." + variable_initial]
@@ -101,7 +101,7 @@ def run_on_data(i, method, dataset, variable, files_input_name, verbose, max_tim
     end = time.time()
 
     if save_model:
-        nx.write_gpickle(model.oghat, f"./experiments/graphs/{dataset}/{variable}/{max_time_lag}/{sig_level}/{method}_{i}")
+        nx.write_gpickle(model.oghat, f"./output_data/graphs/{dataset}/{variable}/{max_time_lag}/{sig_level}/{method}_{i}")
 
     # evaluation other
     o_pres_a = model.evaluation(gtrue, evaluation_measure="other_precision_adjacent")
@@ -144,7 +144,7 @@ if __name__ == "__main__":
     args = arg_parser.parse_args()
     print(args)
 
-    path_input = f"./data/{args.dataset}/{args.variable}/"
+    path_input = f"./input_data/{args.dataset}/{args.variable}/"
     files_input_name = [f for f in listdir(path_input) if isfile(join(path_input, f)) and not f.startswith('.')]
     results = Parallel(n_jobs=args.processor_count)(delayed(run_on_data)(i, args.method, args.dataset, args.variable, files_input_name, args.verbose, args.max_time_lag, args.sig_level)
                                              for i in range(len(files_input_name)))
@@ -158,7 +158,7 @@ if __name__ == "__main__":
     o_fscore_o_list = results[:, 11]
     comput_time_list = results[:, 15]
 
-    with open(f"./experiments/performance_average/{args.max_time_lag}/{args.sig_level}/{args.method}_{args.dataset}_{args.variable}", "w+") as file:
+    with open(f"./output_data/performance_average/{args.max_time_lag}/{args.sig_level}/{args.method}_{args.dataset}_{args.variable}", "w+") as file:
         file.write("Other Precision Adjacent: \n" + str(np.mean(o_pres_a_list)) + " +- " + str(np.std(o_pres_a_list)))
         file.write("\n")
         file.write("Other Recall Adjacent: \n" + str(np.mean(o_rec_a_list)) + " +- " + str(np.std(o_rec_a_list)))
@@ -184,5 +184,5 @@ if __name__ == "__main__":
         print("Other F-Score Oriented: " + str(np.mean(o_fscore_o_list)) + " +- " + str(np.std(o_fscore_o_list)))
         print("Computational Time: " + str(np.mean(comput_time_list)) + " +- " + str(np.std(comput_time_list)))
 
-    np.savetxt(f"./experiments/performance_detail/{args.max_time_lag}/{args.sig_level}/{args.method}_{args.dataset}_{args.variable}.csv", results[:, [6, 7, 8, 9, 10, 11, 15]],
+    np.savetxt(f"./output_data/performance_detail/{args.max_time_lag}/{args.sig_level}/{args.method}_{args.dataset}_{args.variable}.csv", results[:, [6, 7, 8, 9, 10, 11, 15]],
                delimiter=';', header="o_pres_a, o_rec_a, o_fscore_a, o_pres_o, o_rec_o, o_fscore_o, computational_time")

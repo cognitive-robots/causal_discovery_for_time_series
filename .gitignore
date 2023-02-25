@@ -1,6 +1,6 @@
 __pycache__
 
-/experiments/*/
+/input_data/*
+!/input_data/README.md
 
-/data/*
-!/data/README.md
+/output_data/*/
